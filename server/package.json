@@ -1,0 +1,21 @@
+{
+  "name": "addressbook-server",
+  "version": "1.0.0",
+  "description": "contact manager server",
+  "main": "index.js",
+  "author": "brajesh jaishwal",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "cluster": "^0.7.7",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "helmet": "^3.15.0",
+    "http": "^0.0.0",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.3.15",
+    "morgan": "^1.9.1",
+    "serve-favicon": "^2.5.0"
+  }
+}
