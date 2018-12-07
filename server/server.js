@@ -31,26 +31,35 @@ app.use(morgon("dev"))
 
 app.use((req, res, next) => auth.authenticate(req, res, next))
 
+//welcome route
 app.get('/welcome', (req, res) => auth.welcome(req, res))
 
+//register route
 app.post('/users/register', (req, res) => auth.register(req, res))
 
+//login route
 app.post('/users/login', async (req, res) => auth.login(req, res))
 
+//update
+app.put('/contacts/:contactid', async(req, res) => contact.updateContact(req, res))
+
+//create
 app.post('/contacts/add', async(req, res) => contact.createContact(req, res))
 
-app.post('/contacts/edit/:contactid', async(req, res) => contact.updateContact(req, res))
+//delete
+app.delete('/contacts/:contactid', async(req, res) => contact.removeContact(req, res))
 
-app.post('/contacts/remove/:contactid', async(req, res) => contact.removeContact(req, res))
+//fetch by id
+app.get('/contacts/:contactid', async(req, res) => contact.getContact(req, res))
 
-app.post('/contacts/activate/:contactid', async(req, res) => contact.createContact(req, res))
+//fetch all groups and contacts
+app.get('/contacts/group', async(req, res) => contact.getContactList(req, res))
 
-app.get('/contacts/fetch/:contactid', async(req, res) => contact.createContact(req, res))
+//fetch all contacts in a group
+app.get('/contacts/group/:groupid', async(req, res) => contact.getContactList(req, res))
 
-app.get('/contacts/group/fetch', async(req, res) => contact.getContactList(req, res))
+//edit contact group
+app.put('/contacts/group/:groupid', async(req, res) => contact.getContactList(req, res))
 
-app.get('/contacts/group/fetch/:group', async(req, res) => contact.getContactList(req, res))
-
-app.get('/contacts/group/activate/:group', async(req, res) => contact.getContactList(req, res))
-
+//start listening server
 app.listen(PORT, () => console.log(`server is running on ${PORT}`))

@@ -14,18 +14,12 @@ const UserSchema = new Schema({
     },
     password: {
         type: String,
+        minlength: 8,
         required: [true, 'password is a required field'],
-        minlength: 8
     },
     phone: {
-        type: String,
-        validate: {
-            validator: function(v) {
-                //return /\d{3}-\d{3}-\d{4}/.test(v);
-                return /\d{10}/.test(v);
-            },
-            message: props => `${props.value} is not a valid phone number!`
-        },
+        type: Number,
+        minlength: 10,
         required: [true, 'phone number is a required field']
     },
     createdAt: {

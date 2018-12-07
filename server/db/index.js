@@ -44,7 +44,7 @@ const GetCurrentUser = async (token) => {
 const Register = async function({name, email, phone, password}) {
 
     try {
-        const user = await User.findOne({name});
+        const user = await User.findOne({email});
         if (user) {
             throw new Error('User already exists');
         }
@@ -77,40 +77,53 @@ const Login = async function({email, password}) {
 
 const GetContacts = async function({user, group}) {
     try{
-        const parentid = parent !== "-1" ? parent : null;
-        const contacts = await Contact.find({user, group})
+        const contacts = (group === null || group === 'all') ? 
+                            //find all contacts from the user
+                            await Contact.find({user}) : 
+                            //find all contacts from the user and from particular group
+                            await Contact.find({user, group})
         return { contacts }
     }catch(Error) {
         throw Error
     }
 }
 
+const GetContact = async function(id) {
+    try{
+        const contact = await Contact.findById(id)
+        return { contact }
+    }catch(Error) {
+        throw Error
+    }
+}
 const AddContact = async function({user, name, email }) {
     try{
-        const temp = await new Contact({ user, name, email }).save();
+        const temp = await new Contact({ user, name, email, phone, group, starred }).save();
         return { contact: temp }
     }catch(Error) {
         throw Error
     }
 }
 
-const EditContact = async function({user, contact}) {
+const EditContact = async function(req) {
     try {
-        
+        const temp = await Contact.findByIdAndUpdate(req.params.contactid, req.body)
+        return { contact: temp }
     }catch(Error) {
         throw Error
     }
 }
 
-const DeleteContact = async function({user, contact}) {
+const DeleteContact = async function(id) {
     try {
-        const temp = await Contact.findOneAndRemove({contact})
+        const temp = await Contact.findByIdAndRemove({id})
         return { contact: temp}
     }catch(Error) {
         throw Error
     }
 }
 
-module.exports = {  Connect, Login, Register, GetContacts, 
+module.exports = {  Connect, Login, Register, 
+                    GetContact, GetContacts, 
                     AddContact, EditContact, DeleteContact,
                     GetCurrentUser }

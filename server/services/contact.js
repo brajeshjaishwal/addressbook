@@ -1,12 +1,12 @@
-const { AddContact, GetContacts, EditContact, DeleteContact } = require('../db/index')
+const { GetContact, GetContacts, AddContact, EditContact, DeleteContact } = require('../db/index')
 
 const createContact = async (req, res) => {
     try{
-        let { parent, name, relation } = req.body
+        let { name, email, phone, group, starred } = req.body
         let user = req.user
         if(!user) throw Error("You are not logged in.")
-        let member = await AddContact({user: user._id, parent, name, relation})
-        return res.send({ member })
+        let contact = await AddContact({ user: user._id, name, email, phone, group, starred })
+        return res.send({ contact })
     }catch(Error){
         return res.send({ contact: null, message: Error.message})
     }
@@ -14,7 +14,10 @@ const createContact = async (req, res) => {
 
 const updateContact = async (req, res) => {
     try{
-
+        let user = req.user
+        if(!user) throw Error("You are not logged in.")
+        let contact = EditContact(req)
+        return res.send({ contact })
     }catch(Error) {
         return res.send({ contact: null, message: Error.message})
     }
@@ -22,22 +25,35 @@ const updateContact = async (req, res) => {
 
 const removeContact = async (req, res) => {
     try{
-
+        let user = req.user
+        if(!user) throw Error("You are not logged in.")
+        let contact = DeleteContact(req.params.contactid)
+        return res.send({ contact })
     }catch(Error) {
         return res.send({ contact: null, message: Error.message})
     }
 }
 
+const getContact = async (req, res) => {
+    try{
+        let user = req.user
+        if(!user) throw Error("You are not logged in.")
+        let contact = GetContact(req.params.contactid)
+        return res.send({ contact })
+    }catch(Error) {
+        return res.send({ contact: null, message: Error.message})
+    }
+}
 const getContactList = async (req, res) => {
     try {
-        const { parentid } = req.params
+        const { group } = req.params
         const user = req.user
         if(!user) throw Error("You are not logged in.")
-        let result = await GetContacts({user: user._id, parent: parentid})
-        return res.send({contacts: result.members})
+        let contacts = await GetContacts({user: user._id, group})
+        return res.send({ contacts })
     } catch (Error) {
         return res.send({contacts: null, message: Error.message})
     }
 }
 
-module.exports = { createContact, getContactList, updateContact, removeContact }
+module.exports = { createContact, getContactList, updateContact, removeContact, getContact }

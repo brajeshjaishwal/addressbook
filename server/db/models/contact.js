@@ -16,7 +16,10 @@ const ContactSchema = new Schema({
         type: String,
         default: 'None',
     },
-    photo: String,
+    phone: {
+        type: Number,
+        minlength: 10
+    },
     //social accounts,
     starred: Boolean,
     active: Boolean,
