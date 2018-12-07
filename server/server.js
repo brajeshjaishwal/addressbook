@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const favicon = require('serve-favicon')
+//const favicon = require('serve-favicon')
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
 const morgon = require('morgan')
@@ -21,7 +21,7 @@ app.use(cors())
 
 app.use(helmet())
 
-app.use(favicon('favicon.ico'));
+//app.use(favicon('favicon.ico'));
 
 app.use(bodyParser.json())
 
