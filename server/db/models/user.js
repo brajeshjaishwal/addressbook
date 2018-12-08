@@ -19,13 +19,17 @@ const UserSchema = new Schema({
                                     return validator.isEmail(value)
                                 },
                                 message: 'Email is not valid'
-                    }
-                ],
+                    }],
         unique: [true, 'this email is already in use'],
     },
     password: {
         type: String,
         minlength: 8,
+        validate: { validator: value => {
+                        var strongRegex = new RegExp("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+                        return strongRegex.test(value)
+                    }
+        },
         required: [true, 'password is a required field'],
     },
     phone: {
