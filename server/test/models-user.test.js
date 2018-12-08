@@ -1,5 +1,4 @@
 const User = require('../db/models/user')
-const assert = require('chai').assert
 const expect = require('chai').expect
 
 describe('test user model', () => {
@@ -9,7 +8,7 @@ describe('test user model', () => {
                                     phone: 9413844898,
                                     password: 'Brajesh@1234' })
         temp.validate(err => {
-                                assert(err === null)
+                                expect(err).to.be.null
                                 done()
                             })
     }),
@@ -52,7 +51,7 @@ describe('test user model', () => {
                                 phone: 9413844898,
                                 password: 'Brajesh@1234' })
         temp.validate(err => {
-                                assert(err.errors.email !== null)
+                                expect(err.errors.email).to.not.be.null
                                 done()
                             })
     }),
@@ -62,7 +61,7 @@ describe('test user model', () => {
                                 phone: 384-489-8,
                                 password: 'Brajesh@1234' })
         temp.validate(err => {
-                                assert(err.errors.phone !== null)
+                                expect(err.errors.phone).to.not.be.null
                                 done()
                             })
     })
