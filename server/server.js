@@ -52,8 +52,11 @@ app.delete('/contacts/:contactid', async(req, res) => contact.removeContact(req,
 //fetch by id
 app.get('/contacts/:contactid', async(req, res) => contact.getContact(req, res))
 
-//fetch all groups and contacts
-app.get('/contacts/group', async(req, res) => contact.getContactList(req, res))
+//fetch group list and all contacts
+app.get('/contacts/group/list', async(req, res) => contact.getContactList(req, res))
+
+//create group
+app.post('/contacts/group/add', async(req, res) => contact.createGroup(req, res))
 
 //fetch all contacts in a group
 app.get('/contacts/group/:groupid', async(req, res) => contact.getContactList(req, res))

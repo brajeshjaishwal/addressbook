@@ -1,15 +1,26 @@
 const Mongoose = require('mongoose')
+const validator = require('validator')
 const Schema = Mongoose.Schema
+const currentDomain = require('../../config/config').config.DOMAIN
 
 const UserSchema = new Schema({
-    
     name: {
         type: String,
         required: [true, 'name is a required field']
     },
     email: {
         type: String,
-        required: [true, 'email is a required field'],
+        validate: [ {validator: function(value) {
+                                    return value.indexOf(currentDomain) !== -1 
+                                },
+                                message: `Email is not ${currentDomain}`
+                    },
+                    {validator: function(value) {
+                                    return validator.isEmail(value)
+                                },
+                                message: 'Email is not valid'
+                    }
+                ],
         unique: [true, 'this email is already in use'],
     },
     password: {
@@ -22,6 +33,7 @@ const UserSchema = new Schema({
         minlength: 10,
         required: [true, 'phone number is a required field']
     },
+    photo: String,       //photo url
     createdAt: {
         type: Date,
         default: Date.now

@@ -1,6 +1,7 @@
 const Mongoose = require('mongoose')
 const User = require('./models/user')
 const Contact = require('./models/contact')
+const Group = require('./models/group')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { SECRET, DBURL } = require('../config/config').config
@@ -96,7 +97,7 @@ const GetContact = async function(id) {
         throw Error
     }
 }
-const AddContact = async function({user, name, email }) {
+const AddContact = async function({user, name, email, phone, group, starred }) {
     try{
         const temp = await new Contact({ user, name, email, phone, group, starred }).save();
         return { contact: temp }
@@ -123,7 +124,35 @@ const DeleteContact = async function(id) {
     }
 }
 
+const AddGroup = async function({user, name }) {
+    try{
+        const temp = await new Group({ user, name }).save();
+        return { group: temp }
+    }catch(Error) {
+        throw Error
+    }
+}
+
+const EditGroup = async function(id, name) {
+    try {
+        const temp = await Group.findByIdAndUpdate(id, name)
+        return { group: temp }
+    }catch(Error) {
+        throw Error
+    }
+}
+
+const DeleteGroup = async function(id) {
+    try {
+        const temp = await Group.findByIdAndRemove({id})
+        return { group: temp}
+    }catch(Error) {
+        throw Error
+    }
+}
+
 module.exports = {  Connect, Login, Register, 
                     GetContact, GetContacts, 
                     AddContact, EditContact, DeleteContact,
+                    AddGroup, EditGroup, DeleteGroup,
                     GetCurrentUser }

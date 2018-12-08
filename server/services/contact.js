@@ -27,7 +27,7 @@ const removeContact = async (req, res) => {
     try{
         let user = req.user
         if(!user) throw Error("You are not logged in.")
-        let contact = await DeleteContact(req.params.contactid)
+        let contact = await DeleteContact({ id: req.params.contactid })
         return res.send({ contact })
     }catch(Error) {
         return res.send({ contact: null, message: Error.message})
@@ -38,7 +38,7 @@ const getContact = async (req, res) => {
     try{
         let user = req.user
         if(!user) throw Error("You are not logged in.")
-        let contact = await GetContact(req.params.contactid)
+        let contact = await GetContact({ id: req.params.contactid})
         return res.send({ contact })
     }catch(Error) {
         return res.send({ contact: null, message: Error.message})
@@ -46,10 +46,10 @@ const getContact = async (req, res) => {
 }
 const getContactList = async (req, res) => {
     try {
-        const { group } = req.params
+        const { groupid } = req.params
         const user = req.user
         if(!user) throw Error("You are not logged in.")
-        let contacts = await GetContacts({user: user._id, group})
+        let contacts = await GetContacts({user: user._id, group: groupid})
         return res.send({ contacts })
     } catch (Error) {
         return res.send({contacts: null, message: Error.message})
