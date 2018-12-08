@@ -2,11 +2,15 @@
   "name": "addressbook-server",
   "version": "1.0.0",
   "description": "contact manager server",
-  "main": "index.js",
+  "main": "server.js",
   "author": "brajesh jaishwal",
   "license": "MIT",
   "scripts": {
+    "start":"node server.js",
     "test": "mocha test/*.test.js"
+  },
+  "engines": {
+    "node": "10.x"
   },
   "dependencies": {
     "bcrypt": "^3.0.2",
